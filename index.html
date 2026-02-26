@@ -43,25 +43,13 @@
       color: #4a90e2;
       margin-bottom: 1rem;
     }
-
-    .skills, .projects {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .skill, .project {
-      background: white;
+    #lightning-container {
+      margin-top: 1rem;
       padding: 1rem;
+      background: white;
       border-radius: 8px;
-      flex: 1 1 calc(33% - 1rem);
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .project a {
-      color: #4a90e2;
-      text-decoration: none;
-      font-weight: bold;
+      min-height: 200px;
     }
 
     footer {
@@ -72,51 +60,27 @@
       margin-top: 2rem;
     }
 
-    @media (max-width: 768px) {
-      .skill, .project {
-        flex: 1 1 100%;
-      }
-    }
   </style>
 </head>
 <body>
 
   <header>
     <h1>Vikky Kumar</h1>
-    <p>Frontend Developer | JavaScript | SFDX | Lightning Out 2.0</p>
+    <p>Salesforce Developer | JavaScript | Apex | Batch</p>
   </header>
 
   <section>
     <h2>About Me</h2>
-    <p>Hello! I am a web developer with experience in building modern web applications. I specialize in JavaScript frameworks, Salesforce Lightning Web Components, and creating interactive UIs.</p>
+    <p>Hello! I am a salesforce developer with experience in building modern applications. I specialize in JavaScript frameworks, Salesforce Lightning Web Components, and creating interactive UIs.</p>
   </section>
 
-  <section>
-    <h2>Skills</h2>
-    <div class="skills">
-      <div class="skill">HTML5 & CSS3</div>
-      <div class="skill">JavaScript & ES6+</div>
-      <div class="skill">Salesforce LWC</div>
-      <div class="skill">Lightning Out 2.0</div>
-      <div class="skill">Node.js & Express</div>
-    </div>
-  </section>
 
+  <!-- Salesforce Live Demo Section -->
   <section>
-    <h2>Projects</h2>
-    <div class="projects">
-      <div class="project">
-        <p>Portfolio Website</p>
-        <a href="#">View Project</a>
-      </div>
-      <div class="project">
-        <p>Salesforce Lightning Dashboard</p>
-        <a href="#">View Project</a>
-      </div>
-      <div class="project">
-        <p>React E-commerce App</p>
-        <a href="#">View Project</a>
-      </div>
+    <h2>Salesforce Live Demo</h2>
+    <p>This section loads Salesforce Lightning Web Components via Lightning Out 2.0 using JWT authentication.</p>
+    <div id="lightning-container">
+      <p>Loading Salesforce components...</p>
     </div>
   </section>
 
@@ -128,8 +92,52 @@
   </section>
 
   <footer>
-    &copy; 2026 Your Name. All rights reserved.
+    &copy; 2026 Vikky Kumar. All rights reserved.
   </footer>
+
+  <!-- Lightning Out 2.0 Integration Script -->
+  <script>
+    async function initLightning() {
+      try {
+        // Call serverless function to get JWT-based access token
+        const response = await fetch('/api/get-token');
+        const data = await response.json();
+        const accessToken = data.access_token;
+        const instanceUrl = data.instance_url;
+
+        // Load Lightning Out script
+        const script = document.createElement('script');
+        script.src = `${instanceUrl}/lightning/lightning.out.latest/index.iife.prod.js`;
+        script.onload = () => {
+          // Initialize Lightning Out app
+          $Lightning.use(
+            "c:externalDemoApp",
+            () => {
+              $Lightning.createComponent(
+                "c:productInformation",
+                {},
+                "lightning-container"
+              );
+              $Lightning.createComponent(
+                "c:vehicleDescriptionModal",
+                {},
+                "lightning-container"
+              );
+            },
+            instanceUrl,
+            accessToken
+          );
+        };
+        document.body.appendChild(script);
+      } catch (err) {
+        console.error('Error initializing Lightning Out:', err);
+        document.getElementById('lightning-container').innerHTML = "<p>Failed to load Salesforce components.</p>";
+      }
+    }
+
+    // Initialize Lightning Out on page load
+    window.addEventListener('DOMContentLoaded', initLightning);
+  </script>
 
 </body>
 </html>
