@@ -12,8 +12,8 @@ export default async function handler(req, res) {
 
     // JWT payload
     const payload = {
-      iss: process.env.3MVG9wt4IL4O5wvLPJcSaG1g61Qfiz47yTTk84_R7B4K8dgarc4NmUS_pq2wqug45aH4eBWc0hAWQwRpm8XrV, // Connected App Consumer Key
-      sub: process.env.vikky62066kumar@gmail.com,     // Salesforce username to impersonate
+      iss: process.env.CLIENT_ID, // Connected App Consumer Key
+      sub: process.env.SALESFORCE_USER,     // Salesforce username to impersonate
       aud: 'https://login.salesforce.com',  // Or 'https://test.salesforce.com' for sandbox
       exp: Math.floor(Date.now() / 1000) + 180 // 3 minutes from now
     };
