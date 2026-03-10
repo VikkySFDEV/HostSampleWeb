@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Portfolio</title>
+  <title>DEMO</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <!-- Styles -->
@@ -65,66 +65,22 @@
 <body>
 
   <header>
-    <h1>Vikky Kumar</h1>
-    <p>Salesforce Developer | JavaScript | Apex | Batch</p>
+    <h1>Lead Generation Using Omnistudio </h1>
+    <p>Lead Creation using the Omniscript from external website</p>
   </header>
 
   <!-- Salesforce Live Demo Section -->
-  <section>
-    <h2>Salesforce Live Demo</h2>
-    <p>This section loads Salesforce Lightning Web Components via Lightning Out 2.0 using JWT authentication.</p>
-    <div id="lightning-container">
-      <p>Loading Salesforce components...</p>
-    </div>
-  </section>
+  <iframe src="https://algocirruspvtltd30-dev-ed.develop.my.site.com/s/" width="90%"
+    height="70%" frameborder="0">
+  </iframe>
   <footer>
     &copy; 2026 Vikky Kumar. All rights reserved.
   </footer>
 
   <!-- Lightning Out 2.0 Integration Script -->
-  <script>
-    async function initLightning() {
-      try {
-        // Call serverless function to get JWT-based access token
-        const response = await fetch('/api/get-token');
-        const data = await response.json();
-        const accessToken = data.access_token;
-        const instanceUrl = data.instance_url;
-
-        // Load Lightning Out script
-        const script = document.createElement('script');
-        script.src = `${instanceUrl}/lightning/lightning.out.latest/index.iife.prod.js`;
-        script.onload = () => {
-          // Initialize Lightning Out app
-          $Lightning.use(
-            "c:externalDemoApp",
-            () => {
-              $Lightning.createComponent(
-                "c:productInformation",
-                {},
-                "lightning-container"
-              );
-              $Lightning.createComponent(
-                "c:vehicleDescriptionModal",
-                {},
-                "lightning-container"
-              );
-            },
-            instanceUrl,
-            accessToken
-          );
-        };
-        document.body.appendChild(script);
-      } catch (err) {
-        console.error('Error initializing Lightning Out:', err);
-        document.getElementById('lightning-container').innerHTML = "<p>Failed to load Salesforce components.</p>";
-      }
-    }
-
-    // Initialize Lightning Out on page load
-    window.addEventListener('DOMContentLoaded', initLightning);
-  </script>
+ 
 
 </body>
 </html>
+
 
